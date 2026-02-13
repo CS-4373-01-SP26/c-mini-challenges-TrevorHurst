@@ -5,14 +5,20 @@ CFLAGS = -Wall -g
 LDLIBS = -lm
 
 SRCS := $(wildcard *.c)
-
 PROGS := $(SRCS:.c=)
+
+.PHONY: all clean run
 
 all: $(PROGS)
 
+# Pattern rule to compile any .c into a binary
 %: %.c
 	$(CC) $(CFLAGS) $< -o $@ $(LDLIBS)
 
+# Updated run target
+run: $(PROG)
+	@echo "--- Running and Timing: $(PROG) ---"
+	sudo perf stat ./$(PROG)
+
 clean:
 	rm -f $(PROGS)
-
